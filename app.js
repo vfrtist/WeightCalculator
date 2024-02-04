@@ -4,7 +4,7 @@ const openMenuButton = document.querySelector('.up');
 const upper = document.querySelector('.upper');
 
 function make(item) { return document.createElement(item.toString()); }
-function makeArray(list) { return Object.values(list.children) }
+function makeArray(list) { return Object.values(list.children).slice(1) }
 
 class barClass {
     constructor() {
@@ -22,12 +22,13 @@ class barClass {
         this.updateWeight();
     }
 
-    get plateList() { return makeArray(this.ends[0]).slice(1); }
+    get plateList() { return makeArray(this.ends[0]); }
 
     removeWeight(weight) {
-        let leftPlates = this.plateList;
-        let rightPlates = makeArray(this.ends[1]).slice(1);
-        let pos = leftPlates.findIndex(plate => plate.isEqualNode(weight));
+        let end = weight.parentElement;
+        let leftPlates = makeArray(this.ends[0]);
+        let rightPlates = makeArray(this.ends[1]);
+        let pos = makeArray(end).indexOf(weight);
         for (pos; pos < leftPlates.length; pos++) {
             leftPlates[pos].remove();
             rightPlates[pos].remove();
