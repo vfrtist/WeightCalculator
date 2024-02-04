@@ -1,9 +1,7 @@
 :root {
     scroll-behavior: smooth;
     --font-color: black;
-    --background: linear-gradient(94deg, rgba(255, 128, 65, 1) 0%, rgba(218, 58, 58, 1) 76%);
-    --accent: #ffa443;
-    --weight: #dfae53;
+    --background: linear-gradient(94deg, rgb(255 152 79) 0%, rgb(255 106 32) 76%);
     --foreground: white;
     --shadow: #877e8d3b;
     --bar: #d4d4d4;
@@ -22,8 +20,9 @@
 * {
     margin: 0;
     padding: 0;
-    font-family: 'Nunito Sans', sans-serif;
-    font-size: 14pt;
+    font-family: "Protest Strike", sans-serif;
+    font-weight: 400;
+    font-size: 18pt;
 }
 
 li {
@@ -44,10 +43,8 @@ main {
 }
 
 h1 {
-    font-weight: 600;
-    font-size: 28px;
+    font-size: 58px;
     text-transform: Capitalize;
-    font-family: brother-1816, sans-serif;
 }
 
 .upper {
@@ -93,8 +90,9 @@ h1 {
 }
 
 .end .graphic {
-    border: 1px solid var(--bar);
+    border: 2px solid var(--foreground);
     animation: .2s forwards fly-in;
+    background: var(--background);
 }
 
 .middle {
@@ -137,6 +135,7 @@ h1 {
     color: white;
     font-weight: 800;
     transition: all .2s;
+    filter: drop-shadow(2px 2px 3px var(--shadow));
 }
 
 .weight :last-child {
@@ -144,18 +143,17 @@ h1 {
 }
 
 .graphic {
-    background: var(--weight);
+    border-radius: 5px;
     background: white;
-    border-radius: 2px;
-}
-
-[class*='2.5'] {
-    width: 10px !important;
-    height: 40px;
 }
 
 [class*='5'] {
     width: 15px;
+    height: 40px;
+}
+
+[class*='2.5'] {
+    width: 10px;
     height: 40px;
 }
 

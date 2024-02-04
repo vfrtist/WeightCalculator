@@ -40,7 +40,7 @@ class barClass {
 
     get currentWeight() {
         let barWeight = 45;
-        let total = this.plateList.reduce((total, currentValue) => +total + +currentValue.dataset.weight, barWeight,);
+        let total = this.plateList.reduce((total, currentValue) => +total + (2 * +currentValue.dataset.weight), barWeight,);
         return total;
     }
 }
