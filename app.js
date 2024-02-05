@@ -1,6 +1,6 @@
 const weights = [2.5, 5, 10, 25, 35, 45];
 const lower = document.querySelector('.lower');
-const openMenuButton = document.querySelector('.up');
+const openMenuButton = document.querySelector('#up');
 const upper = document.querySelector('.upper');
 
 function make(item) { return document.createElement(item.toString()); }
