@@ -6,11 +6,20 @@ const units = {
     lbs: 1,
     kgs: .453592
 }
+
 const toggleUnits = document.querySelector('#units');
 const toggleTheme = document.querySelector('#theme');
+const themes = ['orange', 'blue', 'pink', 'purple']
 
 function make(item) { return document.createElement(item.toString()); }
 function makeArray(list) { return Object.values(list.children).slice(1) }
+function setTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+}
+
+let currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : null;
+if (currentTheme) { setTheme(currentTheme); }
 
 class barClass {
     constructor() {
@@ -54,8 +63,11 @@ class barClass {
     switchUnits() {
         this.unit === 'lbs' ? this.unit = 'kgs' : this.unit = 'lbs';
         this.updateWeight();
+        let buttons = lower.querySelectorAll('.weight');
+        for (let step = 0; step < buttons.length; step++) {
+            buttons[step].lastChild.innerText = Math.floor(weights[step] * units[bar.unit]);
+        }
     }
-
 }
 
 let bar = new barClass;
@@ -80,23 +92,9 @@ for (let weight of weights) {
 
 openMenuButton.addEventListener('click', () => { upper.classList.toggle('open'); })
 toggleUnits.addEventListener('click', () => { bar.switchUnits(); })
-toggleTheme.addEventListener('click', () => { })
+toggleTheme.addEventListener('click', () => {
+    currentTheme = themes[themes.indexOf(currentTheme) + 1];
+    if (!currentTheme) { currentTheme = 'orange' }
+    setTheme(currentTheme);
+})
 
-// const currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : null;
-// const modeButton = document.querySelector('#mode');
-
-// if (currentTheme) {
-//     document.documentElement.setAttribute('data-theme', currentTheme);
-//     modeButton.innerHTML = localStorage.getItem('theme');
-// }
-
-// function switchGameMode() {
-//     if (localStorage.getItem('theme') === 'crazy') {
-//         document.documentElement.setAttribute('data-theme', 'classic');
-//         localStorage.setItem('theme', 'classic');
-//     } else {
-//         document.documentElement.setAttribute('data-theme', 'crazy');
-//         localStorage.setItem('theme', 'crazy');
-//     }
-//     modeButton.innerHTML = localStorage.getItem('theme');
-// }
