@@ -211,6 +211,29 @@ h1 {
     height: 80px;
 }
 
+.modal::backdrop {
+    background: #00000059;
+    overflow: hidden;
+}
+
+:modal {
+    z-index: 5;
+    display: flex;
+    width: fit-content;
+    height: fit-content;
+    max-width: 60%;
+    max-height: 60%;
+    background-color: white;
+    padding: 24px;
+    object-fit: contain;
+    border-radius: 12px;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    border: none;
+    outline: none;
+}
+
 @keyframes fly-in {
     0% {
         translate: 150px;

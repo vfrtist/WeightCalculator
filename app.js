@@ -26,11 +26,14 @@ class barClass {
         this.total = document.querySelector('h1');
         this.unit = 'lbs';
         this.ends = document.querySelectorAll('.end');
+        this.barWeight = 45;
     }
 
     addWeight(weight) {
         for (let end of this.ends) {
-            let addedWeight = weight.querySelector('.graphic').cloneNode('true');
+            let addedWeight = make('div');
+            addedWeight.classList.add(weight, 'graphic');
+            addedWeight.dataset.weight = weight;
             end.append(addedWeight);
             addedWeight.addEventListener('click', () => { this.removeWeight(addedWeight); })
         }
@@ -54,8 +57,7 @@ class barClass {
     updateWeight() { this.total.innerText = `${this.currentWeight} ${this.unit}` }
 
     get currentWeight() {
-        let barWeight = 45;
-        let total = this.plateList.reduce((total, currentValue) => +total + (2 * +currentValue.dataset.weight), barWeight,);
+        let total = this.plateList.reduce((total, currentValue) => +total + (2 * +currentValue.dataset.weight), this.barWeight,);
         total = Math.round(total * units[this.unit]);
         return total;
     }
@@ -66,6 +68,12 @@ class barClass {
         let buttons = lower.querySelectorAll('.weight');
         for (let step = 0; step < buttons.length; step++) {
             buttons[step].lastChild.innerText = Math.floor(weights[step] * units[bar.unit]);
+        }
+    }
+
+    clearBar() {
+        for (let end of this.ends) {
+            for (let item of end.querySelectorAll(':not(.cap)')) { item.remove() }
         }
     }
 }
@@ -87,7 +95,7 @@ for (let weight of weights) {
 
     button.append(graphic, caption);
     lower.append(button);
-    button.addEventListener('click', () => { bar.addWeight(button); })
+    button.addEventListener('click', () => { bar.addWeight(button.dataset.weight); })
 }
 
 openMenuButton.addEventListener('click', () => { upper.classList.toggle('open'); })
@@ -98,3 +106,37 @@ toggleTheme.addEventListener('click', () => {
     setTheme(currentTheme);
 })
 
+function compareWeight(solvingWeight) {
+    if (solvingWeight >= 45) {
+        return 45;
+    } else {
+        for (let step = 0; step < weights.length; step++) {
+            if (solvingWeight < weights[step]) { return weights[step - 1]; }
+        }
+    }
+}
+
+function findWeight(totalWeight) {
+    bar.clearBar();
+    solvingWeight = (totalWeight - bar.barWeight) / 2
+    while (solvingWeight > 0) {
+        let plate = compareWeight(solvingWeight);
+        solvingWeight = solvingWeight - plate;
+        bar.addWeight(plate);
+    };
+}
+
+//for the setup of the asking for the weight.
+// magnify() {
+//     const modal = make('dialog');
+//     const form = make('input');
+//     modal.classList.add('modal');
+//     const image = this.image.cloneNode('true');
+//     image.style.removeProperty('width');
+//     image.style.removeProperty('height');
+//     image.style.removeProperty('rotate');
+//     modal.append(image);
+//     document.body.append(modal);
+//     modal.showModal()
+//     modal.addEventListener('click', () => { modal.remove(); })
+// }
