@@ -44,7 +44,6 @@ main {
 
 h1 {
     font-size: 58px;
-    text-transform: Capitalize;
 }
 
 .upper {
@@ -68,6 +67,7 @@ h1 {
     padding: 5px;
     display: flex;
     justify-content: space-evenly;
+    user-select: none;
 }
 
 #up {

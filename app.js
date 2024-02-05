@@ -2,6 +2,12 @@ const weights = [2.5, 5, 10, 25, 35, 45];
 const lower = document.querySelector('.lower');
 const openMenuButton = document.querySelector('#up');
 const upper = document.querySelector('.upper');
+const units = {
+    lbs: 1,
+    kgs: .453592
+}
+const toggleUnits = document.querySelector('#units');
+const toggleTheme = document.querySelector('#theme');
 
 function make(item) { return document.createElement(item.toString()); }
 function makeArray(list) { return Object.values(list.children).slice(1) }
@@ -41,8 +47,15 @@ class barClass {
     get currentWeight() {
         let barWeight = 45;
         let total = this.plateList.reduce((total, currentValue) => +total + (2 * +currentValue.dataset.weight), barWeight,);
+        total = Math.round(total * units[this.unit]);
         return total;
     }
+
+    switchUnits() {
+        this.unit === 'lbs' ? this.unit = 'kgs' : this.unit = 'lbs';
+        this.updateWeight();
+    }
+
 }
 
 let bar = new barClass;
@@ -66,3 +79,24 @@ for (let weight of weights) {
 }
 
 openMenuButton.addEventListener('click', () => { upper.classList.toggle('open'); })
+toggleUnits.addEventListener('click', () => { bar.switchUnits(); })
+toggleTheme.addEventListener('click', () => { })
+
+// const currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : null;
+// const modeButton = document.querySelector('#mode');
+
+// if (currentTheme) {
+//     document.documentElement.setAttribute('data-theme', currentTheme);
+//     modeButton.innerHTML = localStorage.getItem('theme');
+// }
+
+// function switchGameMode() {
+//     if (localStorage.getItem('theme') === 'crazy') {
+//         document.documentElement.setAttribute('data-theme', 'classic');
+//         localStorage.setItem('theme', 'classic');
+//     } else {
+//         document.documentElement.setAttribute('data-theme', 'crazy');
+//         localStorage.setItem('theme', 'crazy');
+//     }
+//     modeButton.innerHTML = localStorage.getItem('theme');
+// }
