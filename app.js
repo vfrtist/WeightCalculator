@@ -127,7 +127,7 @@ function findWeight(totalWeight) {
 }
 
 //for the setup of the asking for the weight.
-// magnify() {
+// getWeight() {
 //     const modal = make('dialog');
 //     const form = make('input');
 //     modal.classList.add('modal');
@@ -135,8 +135,7 @@ function findWeight(totalWeight) {
 //     image.style.removeProperty('width');
 //     image.style.removeProperty('height');
 //     image.style.removeProperty('rotate');
-//     modal.append(image);
+//     modal.append(form);
 //     document.body.append(modal);
 //     modal.showModal()
-//     modal.addEventListener('click', () => { modal.remove(); })
 // }
