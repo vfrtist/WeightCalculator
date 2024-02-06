@@ -23,7 +23,8 @@ if (currentTheme) { setTheme(currentTheme); }
 
 class barClass {
     constructor() {
-        this.total = document.querySelector('h1');
+        this.total = document.querySelector('.main');
+        this.subtotal = document.querySelector('.subheading');
         this.unit = 'lbs';
         this.ends = document.querySelectorAll('.end');
         this.barWeight = 45;
@@ -54,7 +55,16 @@ class barClass {
         this.updateWeight();
     }
 
-    updateWeight() { this.total.innerText = `${this.currentWeight} ${this.unit}` }
+    updateWeight() {
+        this.total.innerText = `${this.currentWeight} ${this.unit}`
+        this.subtotal.innerText = this.subWeight;
+    }
+
+    get subWeight() {
+        let subtotal = []
+        for (let plate of this.plateList) { subtotal.push(plate.dataset.weight) }
+        return subtotal.join(' / ');
+    }
 
     get currentWeight() {
         let total = this.plateList.reduce((total, currentValue) => +total + (2 * +currentValue.dataset.weight), this.barWeight,);
@@ -126,16 +136,19 @@ function findWeight(totalWeight) {
     };
 }
 
-//for the setup of the asking for the weight.
-// getWeight() {
-//     const modal = make('dialog');
-//     const form = make('input');
-//     modal.classList.add('modal');
-//     const image = this.image.cloneNode('true');
-//     image.style.removeProperty('width');
-//     image.style.removeProperty('height');
-//     image.style.removeProperty('rotate');
-//     modal.append(form);
-//     document.body.append(modal);
-//     modal.showModal()
+// const frame = document.querySelector('#frame');
+// const navigate = document.querySelector('#navigation');
+// const pages = document.querySelectorAll('.page');
+// let width = navigate.offsetWidth;
+
+// function scrollNext(direction, width) {
+//     if (direction === 'left') { width = -1 * width };
+//     frame.scrollBy(width, 0);
 // }
+
+// scrollNext('right', width);
+
+// navigate.addEventListener('click', (e) => {
+//     width = navigate.offsetWidth;
+//     e.clientX / width > .5 ? scrollNext('right', width) : scrollNext('left', width);
+// })
