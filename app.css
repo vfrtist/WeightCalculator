@@ -82,6 +82,10 @@ main {
     text-align: center;
 }
 
+#page2 {
+    flex-wrap: wrap;
+}
+
 .container {
     display: flex;
     justify-content: center;
@@ -254,6 +258,29 @@ h2 {
 [class*='45'] {
     width: 30px;
     height: 80px;
+}
+
+form {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    place-items: center;
+    height: 300px;
+}
+
+.time {
+    color: var(--font-color);
+    width: 80px;
+    height: 80px;
+    border-radius: 12px;
+    border: none;
+    background: none;
+    box-shadow: 2px 2px 2px var(--shadow);
+    transition: box-shadow .2s;
+}
+
+.time:active {
+    box-shadow: inset 2px 2px 2px var(--shadow);
 }
 
 @keyframes fly-in {

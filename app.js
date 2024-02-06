@@ -73,6 +73,7 @@ class barClass {
     }
 
     switchUnits() {
+        scrollPage(2);
         this.unit === 'lbs' ? this.unit = 'kgs' : this.unit = 'lbs';
         this.updateWeight();
         let buttons = lower.querySelectorAll('.weight');
@@ -108,7 +109,10 @@ for (let weight of weights) {
     button.addEventListener('click', () => { bar.addWeight(button.dataset.weight); })
 }
 
-openMenuButton.addEventListener('click', () => { upper.classList.toggle('open'); })
+openMenuButton.addEventListener('click', () => {
+    scrollPage(2);
+    upper.classList.toggle('open');
+})
 toggleUnits.addEventListener('click', () => { bar.switchUnits(); })
 toggleTheme.addEventListener('click', () => {
     currentTheme = themes[themes.indexOf(currentTheme) + 1];
@@ -136,19 +140,26 @@ function findWeight(totalWeight) {
     };
 }
 
-// const frame = document.querySelector('#frame');
-// const navigate = document.querySelector('#navigation');
-// const pages = document.querySelectorAll('.page');
+const frame = document.querySelector('#frame');
+const rest = document.querySelector('#rest');
+const calculate = document.querySelector('#calculate');
+const pages = document.querySelectorAll('.page');
+let edges = []
+for (let page of pages) {
+    edges.push(page.offsetLeft);
+}
+console.log(edges)
+
 // let width = navigate.offsetWidth;
 
-// function scrollNext(direction, width) {
-//     if (direction === 'left') { width = -1 * width };
-//     frame.scrollBy(width, 0);
-// }
+function scrollPage(page) { frame.scrollTo(edges[page - 1], 0); }
 
-// scrollNext('right', width);
+scrollPage(2);
 
 // navigate.addEventListener('click', (e) => {
 //     width = navigate.offsetWidth;
 //     e.clientX / width > .5 ? scrollNext('right', width) : scrollNext('left', width);
 // })
+
+rest.addEventListener('click', () => { scrollPage(1); })
+calculate.addEventListener('click', () => { scrollPage(3); })
