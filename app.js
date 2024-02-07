@@ -6,7 +6,7 @@ const openMenuButton = document.querySelector('#up');
 const upper = document.querySelector('.upper');
 const toggleUnits = document.querySelector('#units');
 const toggleTheme = document.querySelector('#theme');
-const themes = ['orange', 'blue', 'pink', 'purple']
+const themes = ['orange', 'blue', 'pink', 'purple', 'earth']
 const frame = document.querySelector('#frame');
 const rest = document.querySelector('#rest');
 const calculate = document.querySelector('#calculate');
@@ -178,10 +178,11 @@ weightForm.addEventListener('submit', (e) => {
 // =============== Page Moving ====================
 
 function scrollPage(page, focus = '') {
+    console.log(currentPage, page);
     if (currentPage === page) { page = 2 }
     frame.scrollTo(edges[page - 1], 0);
-    currentPage = page
-    if (focus) { focus.focus(); }
+    currentPage = page;
+    if (focus && page !== 2) { focus.focus(); }
 }
 
 rest.addEventListener('click', () => { scrollPage(1); })
