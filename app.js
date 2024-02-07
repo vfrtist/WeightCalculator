@@ -1,15 +1,26 @@
+//=============== Variables ====================
+
 const weights = [2.5, 5, 10, 25, 35, 45];
 const lower = document.querySelector('.lower');
 const openMenuButton = document.querySelector('#up');
 const upper = document.querySelector('.upper');
+const toggleUnits = document.querySelector('#units');
+const toggleTheme = document.querySelector('#theme');
+const themes = ['orange', 'blue', 'pink', 'purple']
+const frame = document.querySelector('#frame');
+const rest = document.querySelector('#rest');
+const calculate = document.querySelector('#calculate');
+const pages = document.querySelectorAll('.page');
+const timeForm = document.querySelector('#timeForm');
+const weightForm = document.querySelector('#weightForm');
+let currentPage = 2;
+let edges = [];
 const units = {
     lbs: 1,
     kgs: .453592
 }
 
-const toggleUnits = document.querySelector('#units');
-const toggleTheme = document.querySelector('#theme');
-const themes = ['orange', 'blue', 'pink', 'purple']
+//=============== Functions ====================
 
 function make(item) { return document.createElement(item.toString()); }
 function makeArray(list) { return Object.values(list.children).slice(1) }
@@ -18,8 +29,7 @@ function setTheme(theme) {
     localStorage.setItem('theme', theme);
 }
 
-let currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : null;
-if (currentTheme) { setTheme(currentTheme); }
+//=============== Bar Class ====================
 
 class barClass {
     constructor() {
@@ -90,6 +100,8 @@ class barClass {
     }
 }
 
+//=============== Initial Page Building Section ====================
+
 let bar = new barClass;
 
 for (let weight of weights) {
@@ -110,6 +122,13 @@ for (let weight of weights) {
     button.addEventListener('click', () => { bar.addWeight(button.dataset.weight); })
 }
 
+for (let page of pages) { edges.push(page.offsetLeft); }
+
+let currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : null;
+if (currentTheme) { setTheme(currentTheme); }
+
+scrollPage(currentPage);
+
 openMenuButton.addEventListener('click', () => {
     scrollPage(2);
     upper.classList.toggle('open');
@@ -120,6 +139,8 @@ toggleTheme.addEventListener('click', () => {
     if (!currentTheme) { currentTheme = 'orange' }
     setTheme(currentTheme);
 })
+
+//=============== Weight Math ====================
 
 function compareWeight(solvingWeight) {
     if (solvingWeight >= 45) {
@@ -142,14 +163,6 @@ function findWeight(totalWeight) {
 }
 
 // =============== Page Moving ====================
-const frame = document.querySelector('#frame');
-const rest = document.querySelector('#rest');
-const calculate = document.querySelector('#calculate');
-const pages = document.querySelectorAll('.page');
-const timeForm = document.querySelector('#times');
-let currentPage = 2;
-let edges = [];
-for (let page of pages) { edges.push(page.offsetLeft); }
 
 function scrollPage(page) {
     if (currentPage === page) { page = 2 }
@@ -157,16 +170,11 @@ function scrollPage(page) {
     currentPage = page
 }
 
-scrollPage(currentPage);
-
-// navigate.addEventListener('click', (e) => {
-//     width = navigate.offsetWidth;
-//     e.clientX / width > .5 ? scrollNext('right', width) : scrollNext('left', width);
-// })
 rest.addEventListener('click', () => { scrollPage(1); })
 calculate.addEventListener('click', () => { scrollPage(3); })
 
-//=============== Timer Functionality ====================
+//=============== Timer Function ====================
+
 timeForm.addEventListener('submit', (e) => {
     e.preventDefault()
     countdown(e.submitter.value);
