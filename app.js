@@ -144,11 +144,11 @@ const frame = document.querySelector('#frame');
 const rest = document.querySelector('#rest');
 const calculate = document.querySelector('#calculate');
 const pages = document.querySelectorAll('.page');
+const timeForm = document.querySelector('#times');
 let edges = []
 for (let page of pages) {
     edges.push(page.offsetLeft);
 }
-console.log(edges)
 
 // let width = navigate.offsetWidth;
 
@@ -160,6 +160,30 @@ scrollPage(2);
 //     width = navigate.offsetWidth;
 //     e.clientX / width > .5 ? scrollNext('right', width) : scrollNext('left', width);
 // })
-
 rest.addEventListener('click', () => { scrollPage(1); })
-calculate.addEventListener('click', () => { scrollPage(3); })
+// calculate.addEventListener('click', () => { scrollPage(3); })
+timeForm.addEventListener('submit', (e) => {
+    e.preventDefault()
+    countdown(e.submitter.value);
+})
+
+const delay = (operation, delay) => new Promise(resolve => setTimeout(resolve, delay));
+
+async function countdown(time) {
+    scrollPage(2);
+    bar.total.classList.toggle('clock');
+    do {
+        await delay(postTime(time), 1000);
+        time--
+    } while (time > 0)
+    bar.total.classList.toggle('clock');
+    await delay((bar.total.innerText = 'Get it!'), 2000);
+    await delay(bar.updateWeight(), 1000);
+};
+
+function postTime(time) {
+    let minutes = Math.floor(time / 60);
+    let seconds = time % 60;
+    if (seconds < 10) { seconds = '0' + seconds };
+    bar.total.innerText = `${minutes}:${seconds}`;
+}

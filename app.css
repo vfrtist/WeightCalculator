@@ -92,6 +92,10 @@ main {
     align-items: center;
 }
 
+:is(.heading, h1, h2) {
+    width: 100%;
+}
+
 h1 {
     font-size: 58px;
 }
@@ -99,6 +103,13 @@ h1 {
 h2 {
     font-size: 36px;
     color: var(--accent);
+    height: 45px;
+}
+
+.clock {
+    font-family: "Azeret Mono", monospace;
+    font-weight: 500;
+    font-style: normal;
 }
 
 .upper {
