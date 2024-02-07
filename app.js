@@ -156,6 +156,7 @@ function compareWeight(solvingWeight) {
 function findWeight(totalWeight) {
     bar.clearBar();
     scrollPage(2);
+    findWeightInput.blur();
     solvingWeight = (totalWeight - bar.barWeight) / 2
     while (solvingWeight > 0) {
         let plate = compareWeight(solvingWeight);
