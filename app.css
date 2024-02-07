@@ -9,6 +9,7 @@
     --shadow: #6b5b515e;
     --subtext: rgb(139, 132, 126);
     --accent: rgb(255 150 102);
+    --light-accent: rgb(255 150 102 / 40%);
 }
 
 [data-theme="blue"] {
@@ -18,6 +19,7 @@
     --shadow: #52516b5e;
     --subtext: rgb(127, 126, 139);
     --accent: rgb(166 243 247);
+    --light-accent: rgb(166 243 247 / 40%);
 }
 
 [data-theme="pink"] {
@@ -27,6 +29,7 @@
     --shadow: #52516b5e;
     --subtext: rgb(139, 126, 133);
     --accent: rgb(255 194 251);
+    --light-accent: rgb(255 194 251 / 40%);
 }
 
 [data-theme="purple"] {
@@ -36,6 +39,7 @@
     --shadow: #52516b5e;
     --subtext: rgb(132, 126, 139);
     --accent: rgb(217 140 255);
+    --light-accent: rgb(217 140 255 / 40%);
 }
 
 [data-theme="earth"] {
@@ -45,6 +49,7 @@
     --shadow: #52516b5e;
     --subtext: rgb(139, 138, 126);
     --accent: rgb(173 138 127);
+    --light-accent: rgb(173 138 127 / 40%);
 }
 
 ::-webkit-scrollbar {
@@ -84,7 +89,6 @@ main {
     scroll-snap-align: center;
     display: flex;
     flex-direction: row;
-    /* scroll-behavior: smooth; */
 }
 
 .page {
@@ -305,7 +309,7 @@ h2 {
     color: var(--font-color);
     border-radius: 12px;
     border: none;
-    background: none;
+    background: var(--light-accent);
     box-shadow: 2px 2px 2px var(--shadow);
     transition: box-shadow .2s;
     width: 250px;
@@ -326,7 +330,7 @@ h2 {
 
 #weightForm input:active,
 #weightForm input:focus {
-    animation: .35s .1s forwards bubble;
+    animation: .35s .15s forwards bubble;
     border: none;
 }
 
@@ -340,13 +344,11 @@ h2 {
     height: 80px;
     border-radius: 12px;
     border: none;
-    background: none;
+    background: var(--light-accent);
     box-shadow: 2px 2px 2px var(--shadow);
-    transition: box-shadow .2s;
 }
 
-#weightForm button:active,
-.time:active {
+#weightForm button:active {
     box-shadow: inset 2px 2px 2px var(--shadow);
 }
 

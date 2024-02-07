@@ -167,7 +167,7 @@ function findWeight(totalWeight) {
 
 weightForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    let total = e.target['findWeight']
+    let total = e.target['findWeight'];
     if (total.value % 5 > 0) { window.alert('Number must be divisible by 5') }
     else {
         total.value >= 50 ? findWeight(total.value) : window.alert('Please input more than 50lbs');
@@ -178,6 +178,7 @@ weightForm.addEventListener('submit', (e) => {
 // =============== Page Moving ====================
 
 function scrollPage(page, focus = '') {
+    if (page != 2) { upper.classList.remove('open'); }
     console.log(currentPage, page);
     if (currentPage === page) { page = 2 }
     frame.scrollTo(edges[page - 1], 0);
