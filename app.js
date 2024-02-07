@@ -13,6 +13,7 @@ const calculate = document.querySelector('#calculate');
 const pages = document.querySelectorAll('.page');
 const timeForm = document.querySelector('#timeForm');
 const weightForm = document.querySelector('#weightForm');
+const findWeightInput = document.querySelector('#findWeight');
 let currentPage = 2;
 let edges = [];
 const units = {
@@ -140,7 +141,7 @@ toggleTheme.addEventListener('click', () => {
     setTheme(currentTheme);
 })
 
-//=============== Weight Math ====================
+//=============== Weight Function ====================
 
 function compareWeight(solvingWeight) {
     if (solvingWeight >= 45) {
@@ -154,6 +155,7 @@ function compareWeight(solvingWeight) {
 
 function findWeight(totalWeight) {
     bar.clearBar();
+    scrollPage(2);
     solvingWeight = (totalWeight - bar.barWeight) / 2
     while (solvingWeight > 0) {
         let plate = compareWeight(solvingWeight);
@@ -162,16 +164,27 @@ function findWeight(totalWeight) {
     };
 }
 
+weightForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    let total = e.target['findWeight']
+    if (total.value % 5 > 0) { window.alert('Number must be divisible by 5') }
+    else {
+        total.value >= 50 ? findWeight(total.value) : window.alert('Please input more than 50lbs');
+        total.value = '';
+    }
+})
+
 // =============== Page Moving ====================
 
-function scrollPage(page) {
+function scrollPage(page, focus = '') {
     if (currentPage === page) { page = 2 }
     frame.scrollTo(edges[page - 1], 0);
     currentPage = page
+    if (focus) { focus.focus(); }
 }
 
 rest.addEventListener('click', () => { scrollPage(1); })
-calculate.addEventListener('click', () => { scrollPage(3); })
+calculate.addEventListener('click', () => { scrollPage(3, findWeightInput); })
 
 //=============== Timer Function ====================
 

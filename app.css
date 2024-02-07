@@ -271,12 +271,40 @@ h2 {
     height: 80px;
 }
 
+#timeForm,
+#weightForm {
+    height: 300px;
+}
+
 #timeForm {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(3, 1fr);
     place-items: center;
-    height: 300px;
+}
+
+#weightForm {
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+#weightForm button {
+    margin-top: 45px;
+    padding: 8px;
+    border: none;
+    color: var(--font-color);
+    border-radius: 12px;
+    border: none;
+    background: none;
+    box-shadow: 2px 2px 2px var(--shadow);
+    transition: box-shadow .2s;
+}
+
+#weightForm input {
+    margin: 4px;
+    padding: 3px;
+    border: 1px solid var(--shadow);
+    border-radius: 4px;
 }
 
 .time {
@@ -290,6 +318,7 @@ h2 {
     transition: box-shadow .2s;
 }
 
+#weightForm button:active,
 .time:active {
     box-shadow: inset 2px 2px 2px var(--shadow);
 }
