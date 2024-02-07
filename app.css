@@ -71,7 +71,7 @@ main {
     scroll-snap-align: center;
     display: flex;
     flex-direction: row;
-    scroll-behavior: smooth;
+    /* scroll-behavior: smooth; */
 }
 
 .page {
@@ -108,7 +108,7 @@ h2 {
 
 .clock {
     font-family: "Azeret Mono", monospace;
-    font-weight: 500;
+    font-weight: 800;
     font-style: normal;
 }
 

@@ -62,7 +62,7 @@ class barClass {
 
     get subWeight() {
         let subtotal = []
-        for (let plate of this.plateList) { subtotal.push(plate.dataset.weight) }
+        for (let plate of this.plateList) { subtotal.push(Math.floor(plate.dataset.weight * units[this.unit])) }
         return subtotal.join(' / ');
     }
 
@@ -71,6 +71,7 @@ class barClass {
         total = Math.round(total * units[this.unit]);
         return total;
     }
+
 
     switchUnits() {
         scrollPage(2);
@@ -140,28 +141,32 @@ function findWeight(totalWeight) {
     };
 }
 
+// =============== Page Moving ====================
 const frame = document.querySelector('#frame');
 const rest = document.querySelector('#rest');
 const calculate = document.querySelector('#calculate');
 const pages = document.querySelectorAll('.page');
 const timeForm = document.querySelector('#times');
-let edges = []
-for (let page of pages) {
-    edges.push(page.offsetLeft);
+let currentPage = 2;
+let edges = [];
+for (let page of pages) { edges.push(page.offsetLeft); }
+
+function scrollPage(page) {
+    if (currentPage === page) { page = 2 }
+    frame.scrollTo(edges[page - 1], 0);
+    currentPage = page
 }
 
-// let width = navigate.offsetWidth;
-
-function scrollPage(page) { frame.scrollTo(edges[page - 1], 0); }
-
-scrollPage(2);
+scrollPage(currentPage);
 
 // navigate.addEventListener('click', (e) => {
 //     width = navigate.offsetWidth;
 //     e.clientX / width > .5 ? scrollNext('right', width) : scrollNext('left', width);
 // })
 rest.addEventListener('click', () => { scrollPage(1); })
-// calculate.addEventListener('click', () => { scrollPage(3); })
+calculate.addEventListener('click', () => { scrollPage(3); })
+
+//=============== Timer Functionality ====================
 timeForm.addEventListener('submit', (e) => {
     e.preventDefault()
     countdown(e.submitter.value);
