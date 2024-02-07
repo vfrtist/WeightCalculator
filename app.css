@@ -271,21 +271,18 @@ h2 {
     height: 80px;
 }
 
-#timeForm,
-#weightForm {
-    height: 300px;
-}
-
 #timeForm {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(3, 1fr);
     place-items: center;
+    height: 100%;
 }
 
 #weightForm {
     flex-direction: column;
     flex-wrap: wrap;
+    height: 300px;
 }
 
 #weightForm button {
@@ -298,6 +295,11 @@ h2 {
     background: none;
     box-shadow: 2px 2px 2px var(--shadow);
     transition: box-shadow .2s;
+    width: 250px;
+}
+
+#weightForm label {
+    display: none;
 }
 
 #weightForm input {
@@ -305,6 +307,11 @@ h2 {
     padding: 3px;
     border: 1px solid var(--shadow);
     border-radius: 4px;
+    width: 250px;
+}
+
+#page3 h1 {
+    font-size: 54px;
 }
 
 .time {
