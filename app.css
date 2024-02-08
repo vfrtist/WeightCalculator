@@ -44,7 +44,7 @@
 
 [data-theme="earth"] {
     --font-color: black;
-    --background: linear-gradient(94deg, rgb(149 107 66) 0%, rgb(107 76 66) 76%);
+    --background: linear-gradient(94deg, rgb(209 166 124) 0%, rgb(159 103 84) 76%);
     --foreground: white;
     --shadow: #52516b5e;
     --subtext: rgb(139, 138, 126);
@@ -330,6 +330,7 @@ h2 {
 
 #weightForm input:active,
 #weightForm input:focus {
+    outline-color: var(--accent);
     animation: .35s .15s forwards bubble;
     border: none;
 }
@@ -364,17 +365,20 @@ h2 {
 
 @keyframes bubble {
     0% {
-        outline: 1px solid var(--accent);
+        outline-style: solid;
+        outline-width: 1px;
         outline-offset: -2px;
     }
 
     80% {
-        outline: 3px solid var(--accent);
+        outline-style: solid;
+        outline-width: 3px;
         outline-offset: 9px;
     }
 
     100% {
-        outline: 2px solid var(--accent);
+        outline-style: solid;
+        outline-width: 2px;
         outline-offset: 6px;
     }
 
