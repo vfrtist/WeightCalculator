@@ -14,6 +14,7 @@ const pages = document.querySelectorAll('.page');
 const timeForm = document.querySelector('#timeForm');
 const weightForm = document.querySelector('#weightForm');
 const findWeightInput = document.querySelector('#findWeight');
+let currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : null;
 let currentPage = 2;
 let edges = [];
 const units = {
@@ -28,6 +29,12 @@ function makeArray(list) { return Object.values(list.children).slice(1) }
 function setTheme(theme) {
     document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem('theme', theme);
+}
+
+function nextTheme() {
+    currentTheme = themes[themes.indexOf(currentTheme) + 1];
+    if (!currentTheme) { currentTheme = themes[0] }
+    setTheme(currentTheme);
 }
 
 //=============== Bar Class ====================
@@ -125,7 +132,6 @@ for (let weight of weights) {
 
 for (let page of pages) { edges.push(page.offsetLeft); }
 
-let currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : null;
 if (currentTheme) { setTheme(currentTheme); }
 
 scrollPage(currentPage);
@@ -134,12 +140,9 @@ openMenuButton.addEventListener('click', () => {
     scrollPage(2);
     upper.classList.toggle('open');
 })
+
 toggleUnits.addEventListener('click', () => { bar.switchUnits(); })
-toggleTheme.addEventListener('click', () => {
-    currentTheme = themes[themes.indexOf(currentTheme) + 1];
-    if (!currentTheme) { currentTheme = 'orange' }
-    setTheme(currentTheme);
-})
+toggleTheme.addEventListener('click', nextTheme)
 
 //=============== Weight Function ====================
 

@@ -44,8 +44,10 @@
 
 [data-theme="earth"] {
     --font-color: black;
+    /* --font-color: white; */
     --background: linear-gradient(94deg, rgb(209 166 124) 0%, rgb(159 103 84) 76%);
     --foreground: white;
+    /* --foreground: #3d3434; */
     --shadow: #52516b5e;
     --subtext: rgb(139, 138, 126);
     --accent: rgb(173 138 127);
@@ -168,22 +170,22 @@ h2 {
 }
 
 #up {
-    --path: 33% 100%, 66% 100%, 66% 66%, 100% 66%, 100% 33%, 66% 33%, 66% 0%, 33% 0%, 33% 33%, 0% 33%, 0% 66%, 33% 66%;
+    --path: 37% 100%, 62% 100%, 62% 62%, 100% 62%, 100% 37%, 62% 37%, 62% 0%, 37% 0%, 37% 37%, 0% 37%, 0% 62%, 37% 62%;
     background: var(--background);
     border-radius: 50%;
     clip-path: polygon(var(--path));
-    transition: clip-path .2s;
+    transition: clip-path .2s, rotate .2s;
 }
 
 .open {
     height: 75%;
     border-radius: 0 0 36px 36px;
-    transition: height .2s, border-radius .4s .2s;
 }
 
 .open #up {
-    --path: 33% 100%, 66% 100%, 100% 100%, 100% 66%, 100% 33%, 100% 0%, 66% 0%, 33% 0%, 0% 0%, 0% 33%, 0% 66%, 0% 100%;
-    transition: clip-path .4s .2s;
+    --path: 37% 100%, 62% 100%, 100% 100%, 100% 62%, 100% 37%, 100% 0%, 62% 0%, 37% 0%, 0% 0%, 0% 37%, 0% 62%, 0% 100%;
+    transition: clip-path .4s .2s, rotate .4s .2s;
+    rotate: 90deg;
 }
 
 .bar {
