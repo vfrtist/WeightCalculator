@@ -15,7 +15,6 @@ const timeForm = document.querySelector('#timeForm');
 const weightForm = document.querySelector('#weightForm');
 const findWeightInput = document.querySelector('#findWeight');
 const notifications = document.querySelector('#notifications');
-let popup = ''
 let currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : null;
 let currentPage = 2;
 let edges = [];
@@ -57,7 +56,7 @@ notifications.addEventListener('click', askNotificationPermission)
 function showNotification() {
     const img = 'Barbell.png';
     const text = 'Rest Over. Good job and get to it!';
-    popup = new Notification('Timer Complete', { body: text, icon: img, tag: 'timer' });
+    const popup = new Notification('Timer Complete', { body: text, icon: img, tag: 'timer' });
     popup.addEventListener('click', () => {
         window.parent.focus();
         popup.close();
