@@ -14,7 +14,6 @@ const pages = document.querySelectorAll('.page');
 const timeForm = document.querySelector('#timeForm');
 const weightForm = document.querySelector('#weightForm');
 const findWeightInput = document.querySelector('#findWeight');
-const notifications = document.querySelector('#notifications');
 let currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : null;
 let currentPage = 2;
 let edges = [];
@@ -36,36 +35,6 @@ function nextTheme() {
     if (!currentTheme) { currentTheme = themes[0] }
     setTheme(currentTheme);
 }
-
-//=============== Notification Testing ====================
-function askNotificationPermission() {
-    // Check if the browser supports notifications
-    if (!("Notification" in window)) {
-        console.log("This browser does not support notifications.");
-        return;
-    }
-
-    Notification.requestPermission().then((permission) => {
-        if (permission = 'granted') { showNotification() }
-        // set the button to shown or hidden, depending on what the user answers
-    });
-}
-
-notifications.addEventListener('click', askNotificationPermission)
-
-function showNotification() {
-    const img = 'Barbell.png';
-    const text = 'Rest Over. Good job and get to it!';
-    const popup = new Notification('Timer Complete', { body: text, icon: img, tag: 'timer' });
-    popup.addEventListener('click', () => {
-        window.parent.focus();
-        popup.close();
-    })
-}
-
-document.addEventListener("visibilitychange", () => {
-    if (document.visibilityState === "visible") { popup.close(); }
-});
 
 //=============== Bar Class ====================
 
