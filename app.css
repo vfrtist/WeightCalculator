@@ -84,6 +84,14 @@ main {
     position: absolute;
 }
 
+#notifications {
+    position: absolute;
+    inset: 25px;
+    z-index: 2;
+    width: 50px;
+    height: 25px;
+}
+
 #frame {
     width: 100%;
     overflow-x: hidden;

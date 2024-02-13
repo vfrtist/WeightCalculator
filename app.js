@@ -14,6 +14,8 @@ const pages = document.querySelectorAll('.page');
 const timeForm = document.querySelector('#timeForm');
 const weightForm = document.querySelector('#weightForm');
 const findWeightInput = document.querySelector('#findWeight');
+const notifications = document.querySelector('#notifications');
+let popup = ''
 let currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : null;
 let currentPage = 2;
 let edges = [];
@@ -30,12 +32,41 @@ function setTheme(theme) {
     document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem('theme', theme);
 }
-
 function nextTheme() {
     currentTheme = themes[themes.indexOf(currentTheme) + 1];
     if (!currentTheme) { currentTheme = themes[0] }
     setTheme(currentTheme);
 }
+
+//=============== Notification Testing ====================
+function askNotificationPermission() {
+    // Check if the browser supports notifications
+    if (!("Notification" in window)) {
+        console.log("This browser does not support notifications.");
+        return;
+    }
+
+    Notification.requestPermission().then((permission) => {
+        if (permission = 'granted') { showNotification() }
+        // set the button to shown or hidden, depending on what the user answers
+    });
+}
+
+notifications.addEventListener('click', askNotificationPermission)
+
+function showNotification() {
+    const img = 'Barbell.png';
+    const text = 'Rest Over. Good job and get to it!';
+    popup = new Notification('Timer Complete', { body: text, icon: img, tag: 'timer' });
+    popup.addEventListener('click', () => {
+        window.parent.focus();
+        notification.close();
+    })
+}
+
+document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible") { popup.close(); }
+});
 
 //=============== Bar Class ====================
 
@@ -182,7 +213,6 @@ weightForm.addEventListener('submit', (e) => {
 
 function scrollPage(page, focus = '') {
     if (page != 2) { upper.classList.remove('open'); }
-    console.log(currentPage, page);
     if (currentPage === page) { page = 2 }
     frame.scrollTo(edges[page - 1], 0);
     currentPage = page;
