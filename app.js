@@ -14,6 +14,7 @@ const pages = document.querySelectorAll('.page');
 const timeForm = document.querySelector('#timeForm');
 const weightForm = document.querySelector('#weightForm');
 const findWeightInput = document.querySelector('#findWeight');
+let screenLock = null;
 let currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : null;
 let currentPage = 2;
 let edges = [];
@@ -35,6 +36,31 @@ function nextTheme() {
     if (!currentTheme) { currentTheme = themes[0] }
     setTheme(currentTheme);
 }
+
+//=============== Screen Awake for Timing ====================
+
+function isScreenLockSupported() { return ('wakeLock' in navigator); }
+
+async function keepScreenAwake() {
+    if (isScreenLockSupported()) {
+        try {
+            screenLock = await navigator.wakeLock.request('screen');
+        } catch (err) {
+            console.log(err.name, err.message);
+        }
+        return screenLock;
+    }
+}
+
+function releaseScreen() {
+    if (screenLock) { screenLock.release().then(() => { screenLock = null; }); }
+}
+
+document.addEventListener("visibilitychange", async () => {
+    if (screenLock !== null && document.visibilityState === "visible") {
+        screenLock = await navigator.wakeLock.request("screen");
+    }
+});
 
 //=============== Bar Class ====================
 
@@ -200,6 +226,7 @@ timeForm.addEventListener('submit', (e) => {
 const delay = (operation, delay) => new Promise(resolve => setTimeout(resolve, delay));
 
 async function countdown(time) {
+    keepScreenAwake();
     scrollPage(2);
     bar.total.classList.toggle('clock');
     do {
@@ -209,6 +236,7 @@ async function countdown(time) {
     bar.total.classList.toggle('clock');
     await delay((bar.total.innerText = 'Get it!'), 2000);
     await delay(bar.updateWeight(), 1000);
+    releaseScreen();
 };
 
 function postTime(time) {
