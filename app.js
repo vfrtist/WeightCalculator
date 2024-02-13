@@ -60,7 +60,7 @@ function showNotification() {
     popup = new Notification('Timer Complete', { body: text, icon: img, tag: 'timer' });
     popup.addEventListener('click', () => {
         window.parent.focus();
-        notification.close();
+        popup.close();
     })
 }
 
