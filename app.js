@@ -191,7 +191,7 @@ toggleTheme.addEventListener('click', nextTheme)
 function compareWeight(solvingWeight) {
     const weights = bar.currentSystem.weights;
     if (solvingWeight >= weights.slice(- 1)) {
-        return weights.pop();
+        return weights.slice(-1);
     } else {
         for (let step = 0; step < weights.length; step++) {
             if (solvingWeight < weights[step]) { return weights[step - 1]; }
