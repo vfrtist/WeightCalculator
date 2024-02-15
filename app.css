@@ -119,7 +119,7 @@ main {
     align-items: center;
 }
 
-:is(.heading, h1, h2) {
+:is(.heading, h1, h2, h3) {
     width: 100%;
 }
 
@@ -131,6 +131,14 @@ h2 {
     font-size: 36px;
     color: var(--subtext);
     height: 45px;
+}
+
+h3 {
+    font-size: 20px;
+    color: var(--subtext);
+    height: 100%;
+    position: relative;
+    left: 50px;
 }
 
 .clock {
@@ -210,7 +218,7 @@ h2 {
     flex-direction: row;
 }
 
-.end .graphic {
+.end .plate {
     border: 2px solid var(--foreground);
     animation: .2s forwards fly-in;
     background: var(--accent);
@@ -263,37 +271,37 @@ h2 {
     margin-top: 4px;
 }
 
-.graphic {
+.plate {
     border-radius: 5px;
     background: white;
 }
 
-[class*='5'] {
-    width: 15px;
-    height: 40px;
-}
-
-[class*='2.5'] {
+.a {
     width: 10px;
     height: 40px;
 }
 
-[class*='10'] {
+.b {
+    width: 15px;
+    height: 40px;
+}
+
+.c {
     width: 15px;
     height: 80px;
 }
 
-[class*='25'] {
+.d {
     width: 20px;
     height: 80px;
 }
 
-[class*='35'] {
+.e {
     width: 25px;
     height: 80px;
 }
 
-[class*='45'] {
+.f {
     width: 30px;
     height: 80px;
 }

@@ -1,6 +1,5 @@
 //=============== Variables ====================
 
-const weights = [2.5, 5, 10, 25, 35, 45];
 const lower = document.querySelector('.lower');
 const openMenuButton = document.querySelector('#up');
 const upper = document.querySelector('.upper');
@@ -14,14 +13,26 @@ const pages = document.querySelectorAll('.page');
 const timeForm = document.querySelector('#timeForm');
 const weightForm = document.querySelector('#weightForm');
 const findWeightInput = document.querySelector('#findWeight');
+const assignments = ['a', 'b', 'c', 'd', 'e', 'f'];
 let screenLock = null;
 let currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : null;
+let currentUnits = localStorage.getItem('units') ? localStorage.getItem('units') : 'lbs';
 let currentPage = 2;
 let edges = [];
-const units = {
-    lbs: 1,
-    kgs: .453592
-}
+const system = {
+    lbs: {
+        weights: [2.5, 5, 10, 25, 35, 45],
+        barWeight: 45,
+        conversion: .453592,
+        switchTo: 'kg'
+    },
+    kg: {
+        weights: [1, 2, 5, 10, 15, 20],
+        barWeight: 20,
+        conversion: 2.204624,
+        switchTo: 'lbs'
+    },
+};
 
 //=============== Functions ====================
 
@@ -68,15 +79,15 @@ class barClass {
     constructor() {
         this.total = document.querySelector('.main');
         this.subtotal = document.querySelector('.subheading');
-        this.unit = 'lbs';
+        this.converted = document.querySelector('.superheading');
+        this.unit = currentUnits;
         this.ends = document.querySelectorAll('.end');
-        this.barWeight = 45;
     }
 
     addWeight(weight) {
         for (let end of this.ends) {
             let addedWeight = make('div');
-            addedWeight.classList.add(weight, 'graphic');
+            addedWeight.classList.add(assignments[+this.weights.indexOf(+weight)], 'plate');
             addedWeight.dataset.weight = weight;
             end.append(addedWeight);
             addedWeight.addEventListener('click', () => { this.removeWeight(addedWeight); })
@@ -101,29 +112,37 @@ class barClass {
     updateWeight() {
         this.total.innerText = `${this.currentWeight} ${this.unit}`
         this.subtotal.innerText = this.subWeight;
+        this.converted.innerText = `${(this.currentWeight * this.currentSystem.conversion).toFixed(1)} ${this.currentSystem.switchTo}`
     }
 
     get subWeight() {
         let subtotal = []
-        for (let plate of this.plateList) { subtotal.push(Math.floor(plate.dataset.weight * units[this.unit])) }
+        for (let plate of this.plateList) { subtotal.push(plate.dataset.weight) }
         return subtotal.join(' / ');
     }
 
     get currentWeight() {
         let total = this.plateList.reduce((total, currentValue) => +total + (2 * +currentValue.dataset.weight), this.barWeight,);
-        total = Math.round(total * units[this.unit]);
         return total;
     }
 
+    get barWeight() { return system[this.unit].barWeight; }
+    get weights() { return system[this.unit].weights; }
+    get currentSystem() { return system[this.unit]; }
 
     switchUnits() {
-        scrollPage(2);
-        this.unit === 'lbs' ? this.unit = 'kgs' : this.unit = 'lbs';
-        this.updateWeight();
-        let buttons = lower.querySelectorAll('.weight');
-        for (let step = 0; step < buttons.length; step++) {
-            buttons[step].lastChild.innerText = Math.floor(weights[step] * units[bar.unit]);
+        let plates = document.querySelectorAll('.plate');
+        const { weights, barWeight, conversion, switchTo } = this.currentSystem
+        for (let plate of plates) {
+            let amount = system[switchTo].weights[weights.indexOf(+plate.dataset.weight)];
+            let caption = plate.nextElementSibling;
+            if (caption && caption.classList.contains('caption')) { caption.innerText = amount; };
+            plate.dataset.weight = amount;
         }
+        this.unit = switchTo;
+        localStorage.setItem('units', switchTo);
+        this.updateWeight();
+        updatePlaceholderText();
     }
 
     clearBar() {
@@ -136,23 +155,21 @@ class barClass {
 //=============== Initial Page Building Section ====================
 
 let bar = new barClass;
-
-for (let weight of weights) {
+let weights = system[bar.unit].weights;
+for (const [index, weight] of weights.entries()) {
     let button = make('div');
-    let graphic = make('div');
+    let plate = make('div');
     let caption = make('div');
 
     button.classList.add('weight');
-    button.dataset.weight = weight;
-
+    plate.classList.add(assignments[index], 'plate');
+    plate.dataset.weight = weight;
+    caption.classList.add('caption');
     caption.innerText = weight;
 
-    graphic.classList.add(weight, 'graphic');
-    graphic.dataset.weight = weight;
-
-    button.append(graphic, caption);
+    button.append(plate, caption);
     lower.append(button);
-    button.addEventListener('click', () => { bar.addWeight(button.dataset.weight); })
+    button.addEventListener('click', () => { bar.addWeight(button.querySelector('.plate').dataset.weight); })
 }
 
 for (let page of pages) { edges.push(page.offsetLeft); }
@@ -166,14 +183,15 @@ openMenuButton.addEventListener('click', () => {
     upper.classList.toggle('open');
 })
 
-toggleUnits.addEventListener('click', () => { bar.switchUnits(); })
+toggleUnits.addEventListener('click', () => { bar.switchUnits() })
 toggleTheme.addEventListener('click', nextTheme)
 
 //=============== Weight Function ====================
 
 function compareWeight(solvingWeight) {
-    if (solvingWeight >= 45) {
-        return 45;
+    const weights = bar.currentSystem.weights;
+    if (solvingWeight >= weights.slice(- 1)) {
+        return weights.pop();
     } else {
         for (let step = 0; step < weights.length; step++) {
             if (solvingWeight < weights[step]) { return weights[step - 1]; }
@@ -193,12 +211,15 @@ function findWeight(totalWeight) {
     };
 }
 
+function updatePlaceholderText() { findWeightInput.placeholder = `> ${bar.barWeight + bar.currentSystem.weights[0] * 2} ${bar.unit}`; }
+
 weightForm.addEventListener('submit', (e) => {
     e.preventDefault();
     let total = e.target['findWeight'];
-    if (total.value % 5 > 0) { window.alert('Number must be divisible by 5') }
+    let minimum = bar.currentSystem.weights[0] * 2;
+    if (total.value % minimum > 0) { window.alert(`Number must be divisible by ${minimum}`) }
     else {
-        total.value >= 50 ? findWeight(total.value) : window.alert('Please input more than 50lbs');
+        total.value >= bar.barWeight + minimum ? findWeight(total.value) : window.alert(`Please input more than ${bar.barWeight + minimum} ${bar.unit}`);
         total.value = '';
     }
 })
@@ -214,7 +235,10 @@ function scrollPage(page, focus = '') {
 }
 
 rest.addEventListener('click', () => { scrollPage(1); })
-calculate.addEventListener('click', () => { scrollPage(3, findWeightInput); })
+calculate.addEventListener('click', () => {
+    updatePlaceholderText();
+    scrollPage(3, findWeightInput);
+})
 
 //=============== Timer Function ====================
 
