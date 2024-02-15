@@ -14,11 +14,13 @@ const timeForm = document.querySelector('#timeForm');
 const weightForm = document.querySelector('#weightForm');
 const findWeightInput = document.querySelector('#findWeight');
 const assignments = ['a', 'b', 'c', 'd', 'e', 'f'];
+const cancelTimer = document.querySelector('.cancel');
 let screenLock = null;
 let currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : null;
 let currentUnits = localStorage.getItem('units') ? localStorage.getItem('units') : 'lbs';
 let currentPage = 2;
 let edges = [];
+let controller, signal;
 const system = {
     lbs: {
         weights: [2.5, 5, 10, 25, 35, 45],
@@ -245,23 +247,40 @@ calculate.addEventListener('click', () => {
 timeForm.addEventListener('submit', (e) => {
     e.preventDefault()
     countdown(e.submitter.value);
+}, { signal })
+
+cancelTimer.addEventListener('click', () => {
+    cancelTimer.classList.add('hidden');
+    endTimer();
 })
 
 const delay = (operation, delay) => new Promise(resolve => setTimeout(resolve, delay));
 
 async function countdown(time) {
+    controller = new AbortController();
+    signal = controller.signal;
+    bar.total.classList.add('clock');
+    bar.total.closest('.heading').classList.add('clock');
     keepScreenAwake();
     scrollPage(2);
-    bar.total.classList.toggle('clock');
     do {
         await delay(postTime(time), 1000);
         time--
+        if (signal.aborted) { return }
     } while (time > 0)
-    bar.total.classList.toggle('clock');
+    endTimer();
+};
+
+async function endTimer() {
+    controller.abort();
+    console.log(signal);
+    bar.total.classList.remove('clock');
     await delay((bar.total.innerText = 'Get it!'), 2000);
+    bar.total.closest('.heading').classList.remove('clock');
     await delay(bar.updateWeight(), 1000);
     releaseScreen();
-};
+    cancelTimer.classList.remove('hidden');
+}
 
 function postTime(time) {
     let minutes = Math.floor(time / 60);
