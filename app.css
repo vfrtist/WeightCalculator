@@ -419,6 +419,11 @@ h1 {
     left: 58px;
     width: 24px;
     box-shadow: none;
+    animation: .25s forwards pop-in;
+}
+
+#reRest.hidden {
+    animation: none;
 }
 
 @keyframes fly-in {
@@ -450,4 +455,18 @@ h1 {
         outline-offset: 6px;
     }
 
+}
+
+@keyframes pop-in {
+    0% {
+        scale: .75;
+    }
+
+    80% {
+        scale: 1.15;
+    }
+
+    100% {
+        scale: 1;
+    }
 }

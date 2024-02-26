@@ -249,7 +249,6 @@ calculate.addEventListener('click', () => {
 
 timeForm.addEventListener('submit', (e) => {
     e.preventDefault()
-    reRest.classList.remove('hidden');
     reRest.value = e.submitter.value;
     countdown(e.submitter.value);
 }, { signal })
@@ -287,6 +286,7 @@ async function endTimer() {
     await delay(bar.updateWeight(), 1000);
     releaseScreen();
     cancelTimer.classList.remove('hidden');
+    reRest.classList.remove('hidden');
 }
 
 function postTime(time) {
