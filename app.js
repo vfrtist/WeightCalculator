@@ -15,8 +15,10 @@ const weightForm = document.querySelector('#weightForm');
 const findWeightInput = document.querySelector('#findWeight');
 const assignments = ['a', 'b', 'c', 'd', 'e', 'f'];
 const cancelTimer = document.querySelector('.cancel');
+const reRest = document.querySelector('#reRest');
 let screenLock = null;
 let currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : null;
+let currentBase = localStorage.getItem('base') ? localStorage.getItem('base') : 'light';
 let currentUnits = localStorage.getItem('units') ? localStorage.getItem('units') : 'lbs';
 let currentPage = 2;
 let edges = [];
@@ -40,14 +42,14 @@ const system = {
 
 function make(item) { return document.createElement(item.toString()); }
 function makeArray(list) { return Object.values(list.children).slice(1) }
-function setTheme(theme) {
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('theme', theme);
+function setAttribute(attribute, value) {
+    document.documentElement.setAttribute(`data-${attribute}`, value);
+    localStorage.setItem(attribute, value);
 }
 function nextTheme() {
     currentTheme = themes[themes.indexOf(currentTheme) + 1];
     if (!currentTheme) { currentTheme = themes[0] }
-    setTheme(currentTheme);
+    setAttribute('theme', currentTheme);
 }
 
 //=============== Screen Awake for Timing ====================
@@ -176,7 +178,8 @@ for (const [index, weight] of weights.entries()) {
 
 for (let page of pages) { edges.push(page.offsetLeft); }
 
-if (currentTheme) { setTheme(currentTheme); }
+if (currentTheme) { setAttribute('theme', currentTheme); }
+if (currentBase) { setAttribute('base', currentBase); }
 
 scrollPage(currentPage);
 
@@ -246,8 +249,12 @@ calculate.addEventListener('click', () => {
 
 timeForm.addEventListener('submit', (e) => {
     e.preventDefault()
+    reRest.classList.remove('hidden');
+    reRest.value = e.submitter.value;
     countdown(e.submitter.value);
 }, { signal })
+
+reRest.addEventListener('click', () => { countdown(reRest.value); }, { signal })
 
 cancelTimer.addEventListener('click', () => {
     cancelTimer.classList.add('hidden');
