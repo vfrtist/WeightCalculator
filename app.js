@@ -8,6 +8,7 @@ const toggleTheme = document.querySelector('#theme');
 const themes = ['orange', 'blue', 'pink', 'purple', 'earth']
 const frame = document.querySelector('#frame');
 const rest = document.querySelector('#rest');
+const reRest = document.querySelector('#reRest');
 const calculate = document.querySelector('#calculate');
 const pages = document.querySelectorAll('.page');
 const timeForm = document.querySelector('#timeForm');
@@ -15,7 +16,6 @@ const weightForm = document.querySelector('#weightForm');
 const findWeightInput = document.querySelector('#findWeight');
 const assignments = ['a', 'b', 'c', 'd', 'e', 'f'];
 const cancelTimer = document.querySelector('.cancel');
-const reRest = document.querySelector('#reRest');
 let screenLock = null;
 let currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : null;
 let currentBase = localStorage.getItem('base') ? localStorage.getItem('base') : 'light';
@@ -107,8 +107,10 @@ class barClass {
         let rightPlates = makeArray(this.ends[1]);
         let pos = makeArray(end).indexOf(weight);
         for (pos; pos < leftPlates.length; pos++) {
-            leftPlates[pos].remove();
-            rightPlates[pos].remove();
+            let left = leftPlates[pos];
+            let right = rightPlates[pos];
+            left.remove();
+            right.remove();
         }
         this.updateWeight();
     }
@@ -279,7 +281,6 @@ async function countdown(time) {
 
 async function endTimer() {
     controller.abort();
-    console.log(signal);
     bar.total.classList.remove('clock');
     await delay((bar.total.innerText = 'Get it!'), 2000);
     bar.total.closest('.heading').classList.remove('clock');
