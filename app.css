@@ -423,6 +423,10 @@ h1 {
     box-shadow: inset 2px 2px 2px var(--shadow);
 }
 
+.fontLoader {
+    display: none;
+}
+
 @keyframes fly-in {
     0% {
         translate: 150px;
