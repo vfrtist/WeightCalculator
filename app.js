@@ -252,6 +252,7 @@ calculate.addEventListener('click', () => {
 timeForm.addEventListener('submit', (e) => {
     e.preventDefault()
     reRest.value = e.submitter.value;
+    reRest.querySelector('span').innerHTML = e.submitter.innerHTML
     countdown(e.submitter.value);
 }, { signal })
 
