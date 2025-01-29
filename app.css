@@ -423,10 +423,6 @@ button {
     box-shadow: inset 2px 2px 2px var(--shadow);
 }
 
-<<<<<<< Updated upstream
-.fontLoader {
-    display: none;
-=======
 #reRest {
     position: absolute;
     top: -44px;
@@ -451,7 +447,6 @@ button {
 
 #reRest.hidden {
     animation: none;
->>>>>>> Stashed changes
 }
 
 @keyframes fly-in {
