@@ -297,3 +297,7 @@ function postTime(time) {
     if (seconds < 10) { seconds = '0' + seconds };
     bar.total.innerText = `${minutes}:${seconds}`;
 }
+
+document.addEventListener('DOMContentLoaded', ()=> {
+    document.querySelector('.clock.hidden').remove()
+})
